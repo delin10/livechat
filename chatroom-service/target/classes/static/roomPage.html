@@ -1,0 +1,37 @@
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建房间</title>
+    <link rel="stylesheet" href="js/layui/css/layui.css">
+    <link rel="stylesheet" href="js/layui/css/modules/layer/default/layer.css">
+</head>
+<body>
+    <table id="roomTbl" lay-filter="roomTbl"></table>
+
+    <script type="text/html" id="roomTblOps">
+        <div class="layui-btn-container">
+            <a class="layui-btn layui-btn-sm" lay-event="addRoom" href="/chatroom/chatroom.html?roomId={{ d.id }}">加入房间</a>
+            <button class="layui-btn layui-btn-sm" lay-event="deleteRoom">删除房间</button>
+        </div>
+    </script>
+    <script type="text/html" id="roomTblToolbar">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="addRoom">添加房间</button>
+        </div>
+    </script>
+    <script type="text/html" id="addRoomFormScript">
+        <form id="addRoomForm" class="layui-form" lay-filter="addRoomForm" style="margin-top: 20px">
+            <div class="layui-form-item">
+                <label class="layui-form-label">房间描述</label>
+                <div class="layui-input-inline">
+                    <input  type="text" name="description" required placeholder="请输入房间描述" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </form>
+    </script>
+    <script src="js/index.js" type="application/javascript"></script>
+    <script src="js/layui/layui.js" type="application/javascript"></script>
+    <script src="js/roomPage.js" type="application/javascript"></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <title>xxxx的直播间</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet"/>
+    <script src="js/lib/sockjs.min.js" type="application/javascript"></script>
+    <script src="js/lib/stomp.js" type="application/javascript"></script>
+    <script src="js/lib/jquery-2.1.0.min.js" type="application/javascript"></script>
+    <script src="js/lib/bootstrap.js" type="application/javascript"></script>
+    <script src="js/lib/vue.js" type="application/javascript"></script>
+    <script src="js/lib/flv.js" type="application/javascript"></script>
+    <script src="layui/layui.js" type="application/javascript"></script>
+
+    <style>
+        .tab-content > .active {
+            border: 1px solid #ddd;
+            height: 360px;
+            /*border-top: none;*/
+        }
+
+        .tab-content {
+            overflow: hidden;
+        }
+
+        .nav-pills > li > a {
+            border-radius: 0;
+        }
+
+        #chatinput .form-control {
+            border-radius: 0;
+        }
+
+        #chatinput .btn {
+            border-radius: 0;
+        }
+
+        .room-tab {
+            border: #a2a2a2 1px solid;
+            margin-left: 10px;
+        }
+
+        .right-chat-pane {
+            border: #a2a2a2 1px solid;
+            height: 415px !important;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-container" id="chatroom">
+    <div class="layui-bg-cyan layui-row">
+        <div class="layui-col-md12" style="height: 70px;text-align: left;padding-top: 30px; padding-left: 20px;">
+            <span style="font-size: 25px;">Nginx-rtmp驱动</span>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md7" style="margin: 5px 10px 5px 15px;border: #eee 1px solid">
+            <div id="title-head" style="margin: 15px 15px 5px 0px;">
+                <span><a href="javascript:"><img
+                        src="http://i1.sinaimg.cn/ent/d/2008-06-04/U105P28T3D2048907F326DT20080604225106.jpg"
+                        class="layui-nav-img"/></a></span>
+                <span id="room-title" style="font-size: 20px; font-weight: bold"></span>
+                <span id="subscribe-button-container"></span>
+            </div>
+            <div id="additional-info" style="margin-left: 10px; margin-bottom: 5px">
+                <span style="font-size: 10px">主播：</span><span style="font-size: 9px;">李德林</span>
+                <span style="font-size: 10px; margin-left: 20px">标签：</span><span style="font-size: 9px;"><span
+                    class="room-tab">运动</span><span class="room-tab">游戏</span></span>
+            </div>
+            <div style="text-align: center">
+                <video id="live-player" style="position:relative; height: 410px;width: 656px" controls="controls"
+                       preload></video>
+            </div>
+
+        </div>
+        <div class="layui-col-md4" style="margin: 5px 10px 5px 60px;border: #eee 1px solid">
+            <!--tabs-->
+            <ul id="menuTabs" class="nav nav-pills nav-justified">
+                <li class="active">
+                    <a href="#discussion" data-toggle="tab"><i class="fa fa-tree"></i>互动聊天</a>
+                </li>
+                <li>
+                    <a href="#members" data-toggle="tab"><i class="fa fa-tree"></i>现场嘉宾({{number}})</a>
+                </li>
+                <li>
+                    <a href="#guests" data-toggle="tab"><i class="fa fa-tree"></i>最近访问</a>
+                </li>
+            </ul>
+            <!--内容滚动区域开始-->
+            <div id="tabContent" class="tab-content">
+                <div class="tab-pane fade active in right-chat-pane" id="discussion"
+                     style="padding:10px; overflow: auto;">
+                    <div v-for="message in messages">
+                        <span style="color: cornflowerblue;">{{message.creator}}:</span>
+                        <span>{{message.msgBody}}</span>
+                    </div>
+                </div>
+                <!--内容滚动区域结束-->
+                <!--现场观众统计开始-->
+                <div class="tab-pane fade in right-chat-pane" style="padding-top: 10px;" id="members">
+                    <div th:each="user : ${online_guests}">
+                        <span style="color: cornflowerblue;" th:text="${user.randomName}"></span>
+                        <span th:text="${user.ip}">${user.ip}</span>
+                    </div>
+                </div>
+                <!--现场观众统计结束-->
+                <!--最近访问统计总数-->
+                <div class="tab-pane fade in right-chat-pane" style="padding-top: 10px;" id="guests">
+                    <div th:each="guest : ${history_guests}">
+                        <span style="color: cornflowerblue;" th:text="${guest.userEntity.randomName}"></span>
+                        <span th:text="${guest.userEntity.ip}"></span>
+                        <span th:text="${#calendars.format(guest.accessTime,'yyyy-MM-dd mm:ss')}"></span>
+                    </div>
+                </div>
+            </div>
+            <div id="chatinput" class="input-group" style="margin-top: 5px;">
+                <input type="text" class="form-control" v-model="messageinput" @keyup.13="sendMessage"
+                       placeholder="参与话题讨论">
+                <span class="input-group-btn">
+                        <button class="btn btn-success" type="button" @click="sendMessage">发送!</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row" style="padding: 10px 10px 10px 10px">
+        <span style="font-size: 20px;font-weight: bold">直播推荐:</span>
+    </div>
+    <div class="layui-row" id="room-recommendation-container" style="padding-left: 10px">
+    </div>
+    <div class="layui-footer footer" style="background-color: #eee; height: 50px; position: fixed">
+        <div class="layui-main" style="padding-top: 15px">
+            <span style="margin-left: 20px">隐私声明和Cookie</span>
+            <span style="margin-left: 10px">法律声明</span>
+            <span style="margin-left: 10px">广告</span>
+            <span style="margin-left: 10px">关于我们的广告</span>
+            <span style="margin-left: 10px">帮助</span>
+            <span style="margin-left: 10px">反馈</span>
+            <span style="margin-right: 20px;float: right;">© 2020 Delin Li</span>
+        </div>
+    </div>
+</div>
+<script src="js/index.js" type="application/javascript"></script>
+<script src="js/chatroom.js"></script>
+</body>
+</html>

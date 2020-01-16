@@ -1,0 +1,5 @@
+
+nsquid:UselessImportCheck"DRemove this unused import 'tk.mybatis.spring.annotation.MapperScan'.(è„æ8šÅéŸú-
+„squid:UselessImportCheck"YRemove this unused import 'org.springframework.boot.autoconfigure.SpringBootApplication'.(Ë”ÖÏ8šÅéŸú-
+squid:UselessImportCheck"dRemove this unused import 'org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration'.(¦–·Ë8šÅéŸú-
+‚squid:UselessImportCheck"WRemove this unused import 'org.springframework.scheduling.annotation.EnableScheduling'.(‹æ¬‹8šÅéŸú-
