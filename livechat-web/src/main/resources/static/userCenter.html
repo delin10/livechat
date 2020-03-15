@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户中心</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="layui/css/modules/layer/default/layer.css">
+    <script src="layui/layui.js" type="application/javascript"></script>
+</head>
+<body>
+<div class="layui-card">
+    <div class="layui-card-header">基础信息</div>
+    <div class="layui-card-body">
+        <form class="layui-form" action="" lay-filter="basic-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">头像</label>
+                <div class="layui-input-block">
+                    <span id="head-span"></span>
+                    <button type="button" class="layui-btn" id="upload-head-img">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">id</label>
+                <div class="layui-input-block">
+                    <input type="text" name="id" disabled="disabled"  class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" disabled="disabled"  class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">昵称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="nickname" required lay-verify="required" placeholder="请输入昵称" autocomplete="off" class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="submit-basic-info-btn">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-header">附加功能</div>
+    <div id = "additional-container" class="layui-card-body">
+        <div class="layui-form-item">
+            <label class="layui-form-label">修改密码</label>
+            <div class="layui-input-block">
+                <button id="modifyPwdFormBtn" type="button" class="layui-btn">修改密码</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/html" id="roomTblOps">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="editRoom">编辑房间</button>
+    </div>
+</script>
+<script type="text/html" id="verifiedFormScript">
+    <form id="verifiedForm" class="layui-form" lay-filter="verifiedForm" style="margin-top: 20px">
+        <div class="layui-form-item">
+            <label class="layui-form-label">真实姓名</label>
+            <div class="layui-input-inline">
+                <input  type="text" name="name" required placeholder="请输入真实姓名" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">身份证号</label>
+            <div class="layui-input-inline">
+                <input  type="text" name="identifier_id" required placeholder="请输入身份证号" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+    </form>
+</script>
+
+<script type="text/html" id="modifyPwdFormScript">
+    <form id="modifyPwdForm" class="layui-form" lay-filter="modifyPwdForm" style="margin-top: 20px">
+        <div class="layui-form-item">
+            <label class="layui-form-label">旧密码</label>
+            <div class="layui-input-inline">
+                <input  type="text" name="old_pwd" required placeholder="请输入密码" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">新密码</label>
+            <div class="layui-input-inline">
+                <input  type="text" name="new_pwd" required placeholder="请输入密码" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">再次确认</label>
+            <div class="layui-input-inline">
+                <input  type="text" name="confirm_pwd" required placeholder="请再次输入密码" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+    </form>
+</script>
+<script src="js/index.js" type="application/javascript"></script>
+<script src="js/userCenter.js" type="application/javascript"></script>
+<script src="js/xm-select.js" type="application/javascript"></script>
+</body>
+</html>

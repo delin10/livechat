@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="layui/css/modules/layer/default/layer.css">
+    <script src="layui/layui.js" type="application/javascript"></script>
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-row" style="height: 250px"></div>
+    <div class="layui-row">
+        <div class="layui-col-md3" style="width: 400px; height: 300px"></div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header" style="text-align: center; font-size: 23px">用户登录</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="/chatroom/login" method="POST" lay-filter="login-form">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">用户名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="username" required lay-verify="required" placeholder="请输入用户名"
+                                       autocomplete="off" class="layui-input"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">密码</label>
+                            <div class="layui-input-block">
+                                <input type="password" name="password" required lay-verify="required"
+                                       placeholder="请输入密码" autocomplete="off" class="layui-input"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="login-btn">登录</button>
+                                <a href="register.html" class="layui-btn">注册</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md3"></div>
+    </div>
+    <div class="layui-row"></div>
+</div>
+    <script src="js/index.js" type="application/javascript"></script>
+</body>
+</html>
