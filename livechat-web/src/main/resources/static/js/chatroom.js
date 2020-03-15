@@ -63,7 +63,7 @@ let chatroom = new Vue({
                         hasAudio: true,        //开启音频
                         hasVideo: true,
                         stashInitialSize: 128,
-                        enableStashBuffer: false,
+                        enableStashBuffer: true,
                         withCredentials: false,
                         lazyLoadMaxDuration: 3 * 60,
                         seekType: 'range',
@@ -158,7 +158,7 @@ function initRoom(room) {
     let roomLabelListElem = $("#room-label-list");
     let roomOwner = $("#room-owner");
     room.tags.forEach(tag => {
-        roomLabelListElem.append(`<span class="room-tab">${tag}</span>`)
+        roomLabelListElem.append(`<span class="room-tab">${tag.word}</span>`)
     });
     initHeadImg(room.user.head_img);
     roomOwner.append(room.user.nickname);
